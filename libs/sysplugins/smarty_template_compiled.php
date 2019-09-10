@@ -182,13 +182,13 @@ class Smarty_Template_Compiled extends Smarty_Template_Resource_Base
             // call compiler
             $_template->loadCompiler();
             $this->write($_template, $_template->compiler->compileTemplate($_template));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // restore old timestamp in case of error
             if ($saved_timestamp && is_file($this->filepath)) {
                 touch($this->filepath, $saved_timestamp);
             }
             unset($_template->compiler);
-            throw $e;
+            throw new Exception("Error while compiling template", null, $e);
         }
         // release compiler object to free memory
         unset($_template->compiler);

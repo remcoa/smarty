@@ -482,7 +482,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
             if (!empty($this->required_plugins[ 'compiled' ]) || !empty($this->required_plugins[ 'nocache' ])) {
                 $_compiled_code = '<?php ' . $this->compileRequiredPlugins() . "?>\n" . $_compiled_code;
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             if ($this->smarty->debugging) {
                 $this->smarty->_debug->end_compile($this->template);
             }
@@ -491,7 +491,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
             $this->parent_compiler = null;
             $this->template = null;
             $this->parser = null;
-            throw $e;
+            throw new Exception("Error while compiling template", null, $e);
         }
         if ($this->smarty->debugging) {
             $this->smarty->_debug->end_compile($this->template);

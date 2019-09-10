@@ -50,12 +50,12 @@ abstract class Smarty_Resource_Recompiled extends Smarty_Resource
         // call compiler
         try {
             eval('?>' . $_smarty_tpl->compiler->compileTemplate($_smarty_tpl));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             unset($_smarty_tpl->compiler);
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }
-            throw $e;
+            throw new Exception("Error while recompiling template", null, $e);
         }
         // release compiler object to free memory
         unset($_smarty_tpl->compiler);
